@@ -52,12 +52,17 @@ class TodoItemWidget extends StatelessWidget {
               ],
             ),
           ),
-          CircleAvatar(
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.done),
+          Visibility(
+            visible: !taskCompleted,
+            child: CircleAvatar(
+              child: IconButton(
+                onPressed: () {
+                  onChanged!(true);
+                },
+                icon: Icon(Icons.done),
+              ),
+              backgroundColor: Colors.green,
             ),
-            backgroundColor: Colors.green,
           ),
           SizedBox(
             width: 8,

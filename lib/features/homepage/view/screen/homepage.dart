@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todoapp/features/addTodoPage/view/screen/add_todo_page.dart';
+import 'package:todoapp/features/homepage/view/widgets/completed_todo.dart';
+import 'package:todoapp/features/homepage/view/widgets/todo.dart';
 import 'package:todoapp/features/homepage/view/widgets/todo_item_widget.dart';
 
-class Homepage extends StatefulWidget {
+import '../widgets/all_todo_widget.dart';
+
+class Homepage extends ConsumerStatefulWidget {
   const Homepage({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  ConsumerState<Homepage> createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage>
+class _HomepageState extends ConsumerState<Homepage>
     with SingleTickerProviderStateMixin {
   late final tabController;
 
@@ -52,25 +57,9 @@ class _HomepageState extends State<Homepage>
         ),
         body: TabBarView(
           children: [
-            ListView.separated(
-              padding: EdgeInsets.all(16),
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: 8,
-                );
-              },
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return TodoItemWidget(
-                    title: "hello",
-                    description: "This is the description of task",
-                    taskCompleted: false,
-                    onChanged: (_) {},
-                    deleteFunction: (_) {});
-              },
-            ),
-            Container(),
-            Container(),
+            AllTodoWidget(),
+            TodoWidget(),
+            CompletedTodoWidget(),
           ],
           controller: tabController,
         ));

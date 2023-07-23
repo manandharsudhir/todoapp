@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
-class AddTodoPage extends StatefulWidget {
+import '../../../homepage/model/todo_model.dart';
+import '../../../homepage/provider/todo_state.dart';
+
+class AddTodoPage extends ConsumerStatefulWidget {
   const AddTodoPage({super.key});
 
   @override
-  State<AddTodoPage> createState() => _AddTodoPageState();
+  ConsumerState<AddTodoPage> createState() => _AddTodoPageState();
 }
 
-class _AddTodoPageState extends State<AddTodoPage> {
+class _AddTodoPageState extends ConsumerState<AddTodoPage> {
   late final TextEditingController todoTitleController;
   late final TextEditingController todoDescription;
 
@@ -33,16 +38,27 @@ class _AddTodoPageState extends State<AddTodoPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFormField(
+              decoration: InputDecoration(labelText: "Title"),
               controller: todoTitleController,
             ),
             TextFormField(
               controller: todoDescription,
+              decoration: InputDecoration(
+                labelText: "Description",
+              ),
             ),
             SizedBox(
               height: 16,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                ref.read(todoProvider).addTodo(TodoModel(
+                    id: Uuid().v4(),
+                    title: todoTitleController.text,
+                    description: todoDescription.text,
+                    isCompleted: false));
+                Navigator.pop(context);
+              },
               child: Text("Save"),
             )
           ],
