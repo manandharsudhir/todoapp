@@ -26,11 +26,11 @@ class TodoWidget extends ConsumerWidget {
       itemCount: todo.length,
       itemBuilder: (context, index) {
         return TodoItemWidget(
-            title: todo[index].title,
-            description: todo[index].description,
-            taskCompleted: todo[index].isCompleted,
-            onChanged: (_) {},
-            deleteFunction: (_) {});
+          title: todo[index].title,
+          description: todo[index].description,
+          taskCompleted: todo[index].isCompleted,
+          id: todo[index].id,
+        );
       },
     );
   }

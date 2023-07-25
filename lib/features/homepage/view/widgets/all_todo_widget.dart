@@ -21,13 +21,11 @@ class AllTodoWidget extends ConsumerWidget {
       itemCount: todo.todoModel.length,
       itemBuilder: (context, index) {
         return TodoItemWidget(
-            title: todo.todoModel[index].title,
-            description: todo.todoModel[index].description,
-            taskCompleted: todo.todoModel[index].isCompleted,
-            onChanged: (_) {
-              ref.read(todoProvider).completeTodo(todo.todoModel[index].id);
-            },
-            deleteFunction: (_) {});
+          title: todo.todoModel[index].title,
+          description: todo.todoModel[index].description,
+          taskCompleted: todo.todoModel[index].isCompleted,
+          id: todo.todoModel[index].id,
+        );
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todoapp/features/addTodoPage/view/screen/add_todo_page.dart';
+import 'package:todoapp/features/homepage/provider/todo_state.dart';
 import 'package:todoapp/features/homepage/view/widgets/completed_todo.dart';
 import 'package:todoapp/features/homepage/view/widgets/todo.dart';
 import 'package:todoapp/features/homepage/view/widgets/todo_item_widget.dart';
@@ -17,10 +18,19 @@ class Homepage extends ConsumerStatefulWidget {
 class _HomepageState extends ConsumerState<Homepage>
     with SingleTickerProviderStateMixin {
   late final tabController;
+  bool isLoading = false;
 
   @override
   void initState() {
     tabController = TabController(length: 3, vsync: this);
+    setState(() {
+      isLoading = true;
+    });
+    ref.read(todoProvider).getTodo().then((_) {
+      setState(() {
+        isLoading = false;
+      });
+    });
     super.initState();
   }
 
@@ -55,13 +65,17 @@ class _HomepageState extends ConsumerState<Homepage>
           },
           child: Icon(Icons.add),
         ),
-        body: TabBarView(
-          children: [
-            AllTodoWidget(),
-            TodoWidget(),
-            CompletedTodoWidget(),
-          ],
-          controller: tabController,
-        ));
+        body: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : TabBarView(
+                children: [
+                  AllTodoWidget(),
+                  TodoWidget(),
+                  CompletedTodoWidget(),
+                ],
+                controller: tabController,
+              ));
   }
 }
