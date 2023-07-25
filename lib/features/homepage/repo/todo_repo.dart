@@ -15,6 +15,23 @@ class TodoRepo {
       rethrow;
     }
   }
+
+  Future<bool> addTodo({
+    required String title,
+    required String description,
+    required bool isCompleted,
+  }) async {
+    try {
+      await BaseClient.instance.postData("v1/todos", data: {
+        "title": title,
+        "description": description,
+        "is_completed": isCompleted
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
 
 final todoRepo = Provider((ref) => TodoRepo());

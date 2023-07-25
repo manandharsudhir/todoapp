@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todoapp/core/base_model.dart';
 import 'package:todoapp/features/homepage/model/todo_model.dart';
 import 'package:todoapp/features/homepage/repo/todo_repo.dart';
 
@@ -7,20 +8,33 @@ class TodoProvider extends ChangeNotifier {
   final Ref ref;
   TodoProvider({required this.ref});
   List<TodoModel> todoModel = [];
+  BaseModel<List<TodoModel>> todos = BaseModel.loading();
 
   getTodo() async {
     try {
       final response = await ref.read(todoRepo).getTodo();
       todoModel = response;
-      notifyListeners();
+      todos = BaseModel.success(response);
     } catch (e) {
       todoModel = [];
+      todos = BaseModel.error(e.toString());
     }
+    notifyListeners();
   }
 
-  addTodo(TodoModel model) {
+  Future<bool> addTodo(TodoModel model) async {
     todoModel.add(model);
-    notifyListeners();
+    final response = await ref.read(todoRepo).addTodo(
+          title: model.title,
+          description: model.description,
+          isCompleted: model.isCompleted,
+        );
+    if (response) {
+      await getTodo();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   completeTodo(String id) {

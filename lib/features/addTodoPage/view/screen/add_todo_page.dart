@@ -51,13 +51,30 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
               height: 16,
             ),
             ElevatedButton(
-              onPressed: () {
-                ref.read(todoProvider).addTodo(TodoModel(
+              onPressed: () async {
+                final response = await ref.read(todoProvider).addTodo(TodoModel(
                     id: Uuid().v4(),
                     title: todoTitleController.text,
                     description: todoDescription.text,
                     isCompleted: false));
-                Navigator.pop(context);
+                if (response) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      "Todo Added Successfully",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.green,
+                  ));
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      "Adding todo failed",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.red,
+                  ));
+                }
               },
               child: Text("Save"),
             )

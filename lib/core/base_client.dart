@@ -27,4 +27,23 @@ class BaseClient {
       rethrow;
     }
   }
+
+  Future postData(
+    String path, {
+    Map<String, dynamic>? data,
+    Options? options,
+  }) async {
+    try {
+      final response = await dio.post(
+        path,
+        data: data,
+        options: options,
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw Exception(e.message);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
