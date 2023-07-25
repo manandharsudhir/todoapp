@@ -36,6 +36,7 @@ class TodoItemWidget extends ConsumerWidget {
                     decoration: taskCompleted
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
+                    fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -46,6 +47,7 @@ class TodoItemWidget extends ConsumerWidget {
                     decoration: taskCompleted
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
+                    fontSize: 18,
                     color: Colors.white,
                   ),
                 ),
