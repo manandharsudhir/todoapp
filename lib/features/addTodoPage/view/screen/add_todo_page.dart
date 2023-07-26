@@ -27,7 +27,7 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Add Todo",
         ),
         centerTitle: true,
@@ -38,27 +38,27 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFormField(
-              decoration: InputDecoration(labelText: "Title"),
+              decoration: const InputDecoration(labelText: "Title"),
               controller: todoTitleController,
             ),
             TextFormField(
               controller: todoDescription,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Description",
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             ElevatedButton(
               onPressed: () async {
                 final response = await ref.read(todoProvider).addTodo(TodoModel(
-                    id: Uuid().v4(),
+                    id: const Uuid().v4(),
                     title: todoTitleController.text,
                     description: todoDescription.text,
                     isCompleted: false));
                 if (response) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text(
                       "Todo Added Successfully",
                       style: TextStyle(color: Colors.white),
@@ -67,7 +67,7 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
                   ));
                   Navigator.pop(context);
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text(
                       "Adding todo failed",
                       style: TextStyle(color: Colors.white),
@@ -76,7 +76,7 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
                   ));
                 }
               },
-              child: Text("Save"),
+              child: const Text("Save"),
             )
           ],
         ),
